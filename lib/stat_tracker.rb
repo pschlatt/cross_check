@@ -1,7 +1,7 @@
 require 'csv'
 require 'pry'
-require './lib/csv_processor'
-require './lib/total_score_mod'
+require './modules/setup_and_fileio/csv_processor'
+require './modules/game_statistics/total_score_mod'
 
 
 class StatTracker
@@ -19,5 +19,4 @@ class StatTracker
   def lowest_total_score
     lowest_total
   end
-
 end
