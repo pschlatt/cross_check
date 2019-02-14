@@ -11,14 +11,13 @@ class StatTracker
   # include TotalScore
   attr_reader :games,
               :teams,
-              :game_teams_stats
+              :game_team_stats
 
-  def initialize(path_1, path_2, path_3)
+  def initialize(path_1 = :game, path_2 = :team_info, path_3 = :game_team_stats)
     @games = stat_processor(path_1)
     @teams = stat_processor(path_2)
-    @game_teams_stats = stat_processor(path_3)
+    @game_team_stats = stat_processor(path_3)
   end
-
   def highest_total_score
     max = @games.max_by do |game|
       game.home_goals.to_i + game.away_goals.to_i

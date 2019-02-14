@@ -8,7 +8,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_exists
-    tracker_inst = StatTracker.new(:game_sample, :team_info_sample, :game_team_stats_sample)
+    tracker_inst = StatTracker.new
     assert_instance_of StatTracker, tracker_inst
   end
 
@@ -23,8 +23,8 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_game_teams_stats_objects_are_created_on_init
-    assert_equal 3, @tracker.game_teams_stats.count
-    assert @tracker.game_teams_stats.all?{|obj| obj.class == GameTeam}
+    assert_equal 3, @tracker.game_team_stats.count
+    assert @tracker.game_team_stats.all?{|obj| obj.class == GameTeam}
   end
 
   def test_highest_total_score_can_be_calculated

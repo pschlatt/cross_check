@@ -18,7 +18,6 @@ module CsvProcessor
   end
 
   def stat_processor(path)
-
       paths = {game: "game",
               team_info: "team_info",
               game_team_stats: "game_team_stats",
@@ -35,5 +34,5 @@ module CsvProcessor
       teams.shift
       teams
   end
-  
+
 end
