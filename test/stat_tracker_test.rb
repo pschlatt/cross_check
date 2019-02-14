@@ -36,6 +36,21 @@ class StatTrackerTest < Minitest::Test
 
   def test_biggest_blowout_can_be_calculated
     tracker = StatTracker.new(true)
-    assert_equal 3, tracker.biggest_blowout 
+    assert_equal 3, tracker.biggest_blowout
+  end
+
+  def test_sort_and_find_difference
+    tracker = StatTracker.new(true)
+    assert_equal 21, tracker.sort_and_find_difference(1,22)
+  end
+
+  def test_percent_home_wins_can_be_calculated
+    tracker = StatTracker.new(true)
+    assert_equal 66.67, tracker.percent_home_team_wins
+  end
+
+  def test_percent_away_wins_can_be_calculated
+    tracker = StatTracker.new(true)
+    assert_equal 33.33, tracker.percent_away_team_wins
   end
 end

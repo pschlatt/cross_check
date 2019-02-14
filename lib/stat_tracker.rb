@@ -1,15 +1,13 @@
 require 'csv'
 require 'pry'
 require './modules/setup_and_fileio/csv_processor'
-
-
-
-
-
-
+require './modules/game_statistics/percent_wins_mod'
+require './modules/game_statistics/math_mod'
 
 class StatTracker
   include CsvProcessor
+  include PercentWins
+  include GameMath
   # include TotalScore
   attr_reader :games,
               :teams,
@@ -36,28 +34,19 @@ class StatTracker
 
   def biggest_blowout
     blowout = @games.max_by do |game|
-      case
-      when game.home_goals.to_i > game.away_goals.to_i
-        game.home_goals.to_i - game.away_goals.to_i
-      when game.home_goals.to_i < game.away_goals.to_i
-        game.away_goals.to_i - game.home_goals.to_i
-      when game.home_goals.to_i == game.away_goals.to_i
-        0
-      end
+      sort_and_find_difference(game.home_goals, game.away_goals)
     end
-   case
-    when blowout.home_goals.to_i > blowout.away_goals.to_i
-      blowout.home_goals.to_i - blowout.away_goals.to_i
-    when blowout.home_goals.to_i < blowout.away_goals.to_i
-      blowout.away_goals.to_i - blowout.home_goals.to_i
-    end 
+    sort_and_find_difference(blowout.home_goals, blowout.away_goals)
   end
-  # #fixture file
-  # def highest_total_score
-  #   highest_total
-  # end
-  #
-  # def lowest_total_score
-  #   lowest_total
-  # end
+
+  def percent_home_team_wins
+    side = :home
+    percent_team_wins(side)
+  end
+
+  def percent_away_team_wins
+    side = :away
+    percent_team_wins(side)
+  end
+
 end
