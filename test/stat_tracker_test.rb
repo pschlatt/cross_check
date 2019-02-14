@@ -23,4 +23,19 @@ class StatTrackerTest < Minitest::Test
     assert_equal 3, tracker.game_teams_stats.count
     assert tracker.game_teams_stats.all?{|obj| obj.class == GameTeam}
   end
+
+  def test_highest_total_score_can_be_calculated
+    tracker = StatTracker.new(true)
+    assert_equal 7, tracker.highest_total_score
+  end
+
+  def test_lowest_total_score_can_be_calculated
+    tracker = StatTracker.new(true)
+    assert_equal 3, tracker.lowest_total_score
+  end
+
+  def test_biggest_blowout_can_be_calculated
+    tracker = StatTracker.new(true)
+    assert_equal 3, tracker.biggest_blowout 
+  end
 end
