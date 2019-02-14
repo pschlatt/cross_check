@@ -51,7 +51,7 @@ class StatTrackerTest < Minitest::Test
     assert_equal 33.33, @tracker.percent_away_team_wins
   end
 
-  # def test_count_of_games_can_be_calculated_for_one_season
-  #   skip
-  # end
+  def test_count_of_games_can_be_calculated_for_one_season
+    skip
+  end
 end
