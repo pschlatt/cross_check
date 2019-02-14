@@ -49,5 +49,12 @@ class StatTracker
     percent_team_wins(side)
   end
 
+  def count_of_games_one_season(seasonyears)
+    query_by_season(seasonyears).length
+  end
+
+  def average_goals_per_game
+    (goals_adder_upper / @games.length).round(2)
+  end
 
 end

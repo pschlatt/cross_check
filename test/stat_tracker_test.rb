@@ -52,6 +52,16 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_count_of_games_can_be_calculated_for_one_season
-    skip
+    assert_equal 3, @tracker.count_of_games_one_season("20122013")
+    assert_equal 0, @tracker.count_of_games_one_season("20152016")
   end
+
+  def test_average_goals_per_game
+    assert_equal 5.0, @tracker.average_goals_per_game
+  end
+
+  def test_average_goals_by_season
+    assert_equal , @tracker.average_goals_by_season
+  end
+
 end
