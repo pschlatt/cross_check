@@ -3,12 +3,12 @@ require './test/test_helper'
 class StatTrackerTest < Minitest::Test
 
   def setup
-    @tracker = StatTracker.new(true)
+    @tracker = StatTracker.new(:game_sample, :team_info_sample, :game_team_stats_sample)
 
   end
 
   def test_it_exists
-    tracker_inst = StatTracker.new
+    tracker_inst = StatTracker.new(:game_sample, :team_info_sample, :game_team_stats_sample)
     assert_instance_of StatTracker, tracker_inst
   end
 

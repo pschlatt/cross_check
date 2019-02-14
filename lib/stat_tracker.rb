@@ -12,10 +12,11 @@ class StatTracker
   attr_reader :games,
               :teams,
               :game_teams_stats
-  def initialize(boolean = false)
-    @games = game_processor(boolean)
-    @teams = team_processor(boolean)
-    @game_teams_stats = game_team_stat_processor(boolean)
+
+  def initialize(path_1, path_2, path_3)
+    @games = stat_processor(path_1)
+    @teams = stat_processor(path_2)
+    @game_teams_stats = stat_processor(path_3)
   end
 
   def highest_total_score
