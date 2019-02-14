@@ -18,7 +18,7 @@ class StatTracker
     @games = game_processor(boolean)
     @teams = team_processor(boolean)
     @game_teams_stats = game_team_stat_processor(boolean)
-
+  end 
   # #fixture file
   # def highest_total_score
   #   highest_total
