@@ -49,4 +49,5 @@ class StatTracker
     percent_team_wins(side)
   end
 
+
 end
