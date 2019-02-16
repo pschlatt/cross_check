@@ -18,6 +18,7 @@ class StatTracker
     @teams = stat_processor(path_2)
     @game_team_stats = stat_processor(path_3)
   end
+  
   def highest_total_score
     max = @games.max_by do |game|
       game.home_goals.to_i + game.away_goals.to_i
