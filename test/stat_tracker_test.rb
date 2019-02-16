@@ -54,4 +54,8 @@ class StatTrackerTest < Minitest::Test
   def test_count_of_games_can_be_calculated_for_one_season
     skip
   end
+
+  def test_team_name_from_ID
+    assert_equal "New Jersey Devils", @tracker.name_from_id("1")
+  end
 end

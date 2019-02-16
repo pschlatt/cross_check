@@ -49,5 +49,43 @@ class StatTracker
     percent_team_wins(side)
   end
 
+  def name_from_id(id)
+    team = @teams.find do |team|
+      team.team_id == id
+    end
+    "#{team.shortName} #{team.teamName}"
+  end
+
+    def number_of_games_by_team(name)
+      games = @games.select do |game|
+        name_from_id(game.away_team_id) == name || name_from_id(game.home_team_id) == name
+      end
+      games.length
+    end
+
+  def best_offense
+    teams_goals = {}
+    # valid_teams = []
+    # games.each do |game|
+      # valid_teams << game if !valid_teams.include?(game)
+    @games.each do |game|
+      teams_goals[name_from_id(game.home_team_id)] = 0
+      teams_goals[name_from_id(game.away_team_id)] = 0
+    end
+    @games.each do |game|
+      teams_goals[name_from_id(game.home_team_id)] += game.home_goals.to_i
+      teams_goals[name_from_id(game.away_team_id)] += game.away_goals.to_i
+    end
+
+    teams_goals.each do |key, value|
+      teams_goals[key] = (value / number_of_games_by_team(key).to_f).round(3)
+    end
+    winner = teams_goals.sort_by do |team, avg_goals|
+      teams_goals[team]
+    end
+    winner.last.first
+  end
+
 
 end
+binding.pry
