@@ -18,7 +18,7 @@ class StatTracker
     @teams = stat_processor(path_2)
     @game_team_stats = stat_processor(path_3)
   end
-  
+
   def highest_total_score
     max = @games.max_by do |game|
       game.home_goals.to_i + game.away_goals.to_i
@@ -51,24 +51,23 @@ class StatTracker
   end
 
   def name_from_id(id)
-    team = @teams.find do |team|
+    team_w_id = @teams.find do |team|
       team.team_id == id
     end
-    "#{team.shortName} #{team.teamName}"
+    # binding.pry
+    "#{team_w_id.shortName} #{team_w_id.teamName}"
   end
 
     def number_of_games_by_team(name)
-      games = @games.select do |game|
-        name_from_id(game.away_team_id) == name || name_from_id(game.home_team_id) == name
+      games = @game_team_stats.select do |game|
+        id = game.team_id
+        name_from_id(id) == name
       end
       games.length
     end
 
   def best_offense
     teams_goals = {}
-    # valid_teams = []
-    # games.each do |game|
-      # valid_teams << game if !valid_teams.include?(game)
     @games.each do |game|
       teams_goals[name_from_id(game.home_team_id)] = 0
       teams_goals[name_from_id(game.away_team_id)] = 0
@@ -77,7 +76,6 @@ class StatTracker
       teams_goals[name_from_id(game.home_team_id)] += game.home_goals.to_i
       teams_goals[name_from_id(game.away_team_id)] += game.away_goals.to_i
     end
-
     teams_goals.each do |key, value|
       teams_goals[key] = (value / number_of_games_by_team(key).to_f).round(3)
     end
@@ -87,6 +85,36 @@ class StatTracker
     winner.last.first
   end
 
+  def average_goals_by_season
+    goals_by_season = {}
+    games_by_season = {}
+    @games.each do |game|
+      goals_by_season[game.season] = 0
+      games_by_season[game.season] = 0
+    end
+    @games.each do |game|
+      goals_by_season[game.season] += (game.away_goals.to_i + game.home_goals.to_i)
+    end
+    @games.each do |game|
+      games_by_season[game.season] += 1
+    end
+    goals_by_season.each do |season, goals|
+      avg_goals = goals / games_by_season[season].to_f
+      goals_by_season[season] = avg_goals.round(2)
+    end
+    goals_by_season
+  end
 
+  def games_by_season
+    games_by_season = {}
+    @games.each do |game|
+      games_by_season[game.season] = 0
+    end
+    @games.each do |game|
+      games_by_season[game.season] += 1
+    end
+    games_by_season
+    # binding.pry
+  end
 end
-binding.pry
+# binding.pry
