@@ -24,7 +24,9 @@ module CsvProcessor
               game_sample: "game_sample",
               game_sample_2: "game_sample_2",
               game_team_stats_sample: "game_team_stats_sample",
-              team_info_sample: "team_info_sample"}
+              team_info_sample: "team_info_sample",
+              game_team_stats_sample_mk: "game_team_stats_sample_mk",
+              game_sample_mk: "game_sample_mk"}
       teams = []
       csv = CSV.read("./data/#{paths[path]}.csv")
       csv.each do |team|

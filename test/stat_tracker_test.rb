@@ -4,6 +4,7 @@ class StatTrackerTest < Minitest::Test
 
   def setup
     @tracker = StatTracker.new(:game_sample, :team_info_sample, :game_team_stats_sample)
+    @tracker_2 = StatTracker.new(:game_sample_mk, :team_info_sample, :game_team_stats_sample_mk)
 
   end
 
@@ -57,5 +58,9 @@ class StatTrackerTest < Minitest::Test
 
   def test_team_name_from_ID
     assert_equal "New Jersey Devils", @tracker.name_from_id("1")
+  end
+
+  def best_offense_can_be_calculated
+    assert_equal "New Jersey Devils", @tracker_2.best_offense
   end
 end
