@@ -61,7 +61,30 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_average_goals_by_season
-    assert_equal , @tracker.average_goals_by_season
+    skip
+    assert_equal 4, @tracker.average_goals_by_season
+  end
+
+  #team_info_start________________________
+
+  def test_count_of_teams
+    assert_equal 3, @tracker.count_of_teams
+  end
+
+  #Team_stats_starts
+
+  def test_team_info
+    skip
+  end
+
+  def test_best_season
+    skip
+
+  end
+
+  def test_average_win_percentage
+    skip
+    
   end
 
 end

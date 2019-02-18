@@ -57,4 +57,14 @@ class StatTracker
     (goals_adder_upper / @games.length).round(2)
   end
 
+  def count_of_teams
+    @teams.count do |team|
+      team.team_id
+    end
+  end
+
+  def best_season
+    
+  end
+
 end
