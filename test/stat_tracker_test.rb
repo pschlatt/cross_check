@@ -3,7 +3,7 @@ require './test/test_helper'
 class StatTrackerTest < Minitest::Test
 
   def setup
-    @tracker = StatTracker.new(true)
+    @tracker = StatTracker.new(:game_sample, :team_info_sample, :game_team_stats_sample)
 
   end
 
@@ -23,8 +23,8 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_game_teams_stats_objects_are_created_on_init
-    assert_equal 3, @tracker.game_teams_stats.count
-    assert @tracker.game_teams_stats.all?{|obj| obj.class == GameTeam}
+    assert_equal 3, @tracker.game_team_stats.count
+    assert @tracker.game_team_stats.all?{|obj| obj.class == GameTeam}
   end
 
   def test_highest_total_score_can_be_calculated
@@ -53,5 +53,9 @@ class StatTrackerTest < Minitest::Test
 
   def test_count_of_games_can_be_calculated_for_one_season
     skip
+  end
+
+  def test_team_name_from_ID
+    assert_equal "New Jersey Devils", @tracker.name_from_id("1")
   end
 end

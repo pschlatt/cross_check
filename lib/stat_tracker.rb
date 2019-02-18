@@ -11,13 +11,14 @@ class StatTracker
   # include TotalScore
   attr_reader :games,
               :teams,
-              :game_teams_stats
-  def initialize(boolean = false)
-    @games = game_processor(boolean)
-    @teams = team_processor(boolean)
-    @game_teams_stats = game_team_stat_processor(boolean)
-  end
+              :game_team_stats
 
+  def initialize(path_1 = :game, path_2 = :team_info, path_3 = :game_team_stats)
+    @games = stat_processor(path_1)
+    @teams = stat_processor(path_2)
+    @game_team_stats = stat_processor(path_3)
+  end
+  
   def highest_total_score
     max = @games.max_by do |game|
       game.home_goals.to_i + game.away_goals.to_i
@@ -49,5 +50,43 @@ class StatTracker
     percent_team_wins(side)
   end
 
+  def name_from_id(id)
+    team = @teams.find do |team|
+      team.team_id == id
+    end
+    "#{team.shortName} #{team.teamName}"
+  end
+
+    def number_of_games_by_team(name)
+      games = @games.select do |game|
+        name_from_id(game.away_team_id) == name || name_from_id(game.home_team_id) == name
+      end
+      games.length
+    end
+
+  def best_offense
+    teams_goals = {}
+    # valid_teams = []
+    # games.each do |game|
+      # valid_teams << game if !valid_teams.include?(game)
+    @games.each do |game|
+      teams_goals[name_from_id(game.home_team_id)] = 0
+      teams_goals[name_from_id(game.away_team_id)] = 0
+    end
+    @games.each do |game|
+      teams_goals[name_from_id(game.home_team_id)] += game.home_goals.to_i
+      teams_goals[name_from_id(game.away_team_id)] += game.away_goals.to_i
+    end
+
+    teams_goals.each do |key, value|
+      teams_goals[key] = (value / number_of_games_by_team(key).to_f).round(3)
+    end
+    winner = teams_goals.sort_by do |team, avg_goals|
+      teams_goals[team]
+    end
+    winner.last.first
+  end
+
 
 end
+binding.pry
