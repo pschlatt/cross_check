@@ -54,12 +54,14 @@ class StatTracker
     team_w_id = @teams.find do |team|
       team.team_id == id
     end
+    # binding.pry
     "#{team_w_id.shortName} #{team_w_id.teamName}"
   end
 
     def number_of_games_by_team(name)
       games = @game_team_stats.select do |game|
-        name_from_id(game.team_id) == name
+        id = game.team_id
+        name_from_id(id) == name
       end
       games.length
     end
@@ -83,5 +85,36 @@ class StatTracker
     winner.last.first
   end
 
+  def average_goals_by_season
+    goals_by_season = {}
+    games_by_season = {}
+    @games.each do |game|
+      goals_by_season[game.season] = 0
+      games_by_season[game.season] = 0
+    end
+    @games.each do |game|
+      goals_by_season[game.season] += (game.away_goals.to_i + game.home_goals.to_i)
+    end
+    @games.each do |game|
+      games_by_season[game.season] += 1
+    end
+    goals_by_season.each do |season, goals|
+      avg_goals = goals / games_by_season[season].to_f
+      goals_by_season[season] = avg_goals.round(2)
+    end
+    goals_by_season
+  end
 
+  def games_by_season
+    games_by_season = {}
+    @games.each do |game|
+      games_by_season[game.season] = 0
+    end
+    @games.each do |game|
+      games_by_season[game.season] += 1
+    end
+    games_by_season
+    # binding.pry
+  end
 end
+# binding.pry

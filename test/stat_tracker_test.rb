@@ -52,8 +52,9 @@ class StatTrackerTest < Minitest::Test
     assert_equal 33.33, @tracker.percent_away_team_wins
   end
 
-  def test_count_of_games_can_be_calculated_for_one_season
-    skip
+  def test_average_goals_by_season_can_be_calculated
+    expected = {"20122013"=>4.68, "20172018"=>5.5}
+    assert_equal expected, @tracker_2.average_goals_by_season
   end
 
   def test_team_name_from_ID
@@ -62,5 +63,16 @@ class StatTrackerTest < Minitest::Test
 
   def best_offense_can_be_calculated
     assert_equal "New Jersey Devils", @tracker_2.best_offense
+  end
+
+  def test_number_of_games_by_team_name_can_be_calculated
+    skip
+    assert_equal 80, @tracker_2.number_of_games_by_team("New Jersey Devils")
+  end
+
+  def test_count_of_games_by_season
+    expected = {"20122013"=>22,
+                "20172018"=>2 }
+    assert_equal expected, @tracker_2.games_by_season
   end
 end
