@@ -1,7 +1,7 @@
 require 'pry'
-require './lib/game'
-require './lib/team'
-require './lib/game_team'
+require_relative '../../lib/game'
+require_relative '../../lib/team'
+require_relative '../../lib/game_team'
 module CsvProcessor
 
   def class_choice(path)
