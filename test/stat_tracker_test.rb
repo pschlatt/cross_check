@@ -64,11 +64,11 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_percent_home_wins_can_be_calculated
-    assert_equal 66.67, @tracker.percent_home_team_wins
+    assert_equal 66.67, @tracker.percentage_home_wins
   end
 
   def test_percent_away_wins_can_be_calculated
-    assert_equal 33.33, @tracker.percent_away_team_wins
+    assert_equal 33.33, @tracker.percentage_visitor_wins
   end
 
   def test_average_goals_by_season_can_be_calculated
@@ -97,6 +97,6 @@ class StatTrackerTest < Minitest::Test
     skip
     expected = {"20122013"=>22,
                 "20172018"=>2 }
-    assert_equal expected, @tracker_2.games_by_season
+    assert_equal expected, @tracker_2.count_of_games_by_season
   end
 end
