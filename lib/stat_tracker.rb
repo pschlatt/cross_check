@@ -326,11 +326,6 @@ class StatTracker
     sorted.first.last
   end
 
-  def favorite_opponent(team_id)
-    
-  end
-
-
   def count_of_games_by_season
     games_by_season = {}
     @game.each do |game|
