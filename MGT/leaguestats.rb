@@ -6,16 +6,51 @@ module LeagueData
 
   def name_from_id(team_id)
     team_w_id = @teams.find do |team|
-      team.team_id == id
+      team.team_id == team_id
     end
     team_w_id.teamname
+  end
+
+  def home_team_games(games)
+    games.count do |game|
+      game.home_team_id == team_id
+    end
+  end
+
+  def total_home_points(games)
+    games.sum do |game|
+      if team_id == game.home_team_id
+        game.home_goals
+      else
+        0
+      end
+    end
+  end
+
+  def total_away_points(games)
+    games.sum do |game|
+    if team_id == game.away_team_id
+      game.away_goals
+    else
+      0
+    end
+  end
+
+  def goals_scored(games)
+    total_home_points(games) + total_away_points(games)
+  end
+
+  def games_played(games)
+    games.find_all do |game|
+      game.away_team_id == @team_id || game.home_team_id == @team_id
+    end
   end
 
 def average_goals_scored(games)
   if games_played(games).count != 0
     ((goals_scored(games)).to.f / games_played(games).count).round(2)
   else
-    0.0
+    0
   end
 end
 
