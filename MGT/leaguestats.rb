@@ -4,14 +4,20 @@ module LeagueData
     @teams.count
   end
 
-  def name_from_id(id)
+  def name_from_id(team_id)
     team_w_id = @teams.find do |team|
       team.team_id == id
     end
     team_w_id.teamname
   end
 
-  # refactored to use data from the game iteration
+def average_goals_scored(games)
+  if games_played(games).count != 0
+    ((goals_scored(games)).to.f / games_played(games).count).round(2)
+  else
+    0.0
+  end
+end
 
  def best_offense
     best_team = @teams.max_by do |team|
@@ -29,7 +35,7 @@ module LeagueData
 
   def winningest_team
     team_with_highest_win_percentage = @teams.max_by do |team|
-      team.number_of_games_won(games).to_f(3) / team.games_played(games).count
+      team.number_of_games_won(games).to_f / team.games_played(games).count
     end
     team_with_highest_win_percentage.teamname
   end
@@ -68,7 +74,7 @@ module LeagueData
   def number_of_games_won(games)
     games_won(games).count
   end
-end 
+end
 
     # I don't think I need the below method
 
