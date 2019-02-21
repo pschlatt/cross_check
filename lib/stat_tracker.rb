@@ -5,7 +5,7 @@ require_relative 'game_team'
 require_relative 'team'
 require_relative '../modules/game_statistics/math_mod'
 require_relative '../modules/game_statistics/percent_wins_mod'
-require_relative '../modules/league_data/league_mod'
+# require_relative '../modules/league_data/league_mod'
 
 
 # require_relative ‘./game_stats’
@@ -242,34 +242,104 @@ class StatTracker
     # binding.pry
     games.each {|game| season_win_percent[game.season] = 0}
     games.each do |game|
-      if game.home_team_id == team_id && game.outcome.include?('home win')
+      case
+      when (game.home_team_id == team_id) && game.outcome.include?('home win')
         season_win_percent[game.season] += 1
-      if game.away_team_id == team_id && game.outcome.include?('away win')
+      when (game.away_team_id == team_id) && game.outcome.include?('away win')
         season_win_percent[game.season] += 1
       end
     end
-    # binding.pry
-    season_win_percent.each do |season, wins|
-      num_played = games.select{|game| game.season == season}
-      season_win_percent[season] = (wins / num_played.count.to_f).round(2)
-    end
-    # binding.pry
-    worst_to_best = season_win_percent.sort_by do |season, win_per|
-      win_per
-    end
-    # binding.pry
-      worst_to_best.last.first
+  season_win_percent.each do |season, wins|
+    num_played = games.select{|game| game.season == season}
+    season_win_percent[season] = (wins / num_played.count.to_f).round(2)
   end
-    def count_of_games_by_season
-      games_by_season = {}
-      @game.each do |game|
-        games_by_season[game.season] = 0
-      end
-      @game.each do |game|
-        games_by_season[game.season] += 1
-      end
-      games_by_season
-      # binding.pry
+  worst_to_best = season_win_percent.sort_by do |season, win_per|
+    win_per
+  end
+  worst_to_best.last.first
+  end
+
+  def worst_season(team_id)
+    season_win_percent = {}
+    games = @game.select do |game|
+      game.home_team_id == team_id || game.away_team_id == team_id
     end
+    # binding.pry
+    games.each {|game| season_win_percent[game.season] = 0}
+    games.each do |game|
+      case
+      when (game.home_team_id == team_id) && game.outcome.include?('home win')
+        season_win_percent[game.season] += 1
+      when (game.away_team_id == team_id) && game.outcome.include?('away win')
+        season_win_percent[game.season] += 1
+      end
+    end
+  season_win_percent.each do |season, wins|
+    num_played = games.select{|game| game.season == season}
+    season_win_percent[season] = (wins / num_played.count.to_f).round(2)
+  end
+  worst_to_best = season_win_percent.sort_by do |season, win_per|
+    win_per
+  end
+  worst_to_best.first.first
+  end
+
+  def average_win_percentage(team_id)
+    games = @game.select do |game|
+      game.home_team_id == team_id || game.away_team_id == team_id
+    end
+    total_wins = 0
+    games.each do |game|
+      case
+      when (game.home_team_id == team_id) && game.outcome.include?('home win')
+         total_wins += 1
+      when (game.away_team_id == team_id) && game.outcome.include?('away win')
+        total_wins += 1
+      end
+    end
+    (total_wins.to_f / games.count).round(2)
+  end
+
+  def most_goals_scored(team_id)
+    games_goals = {}
+    games = @game.select do |game|
+      game.home_team_id == team_id || game.away_team_id == team_id
+    end
+    games.each do |game|
+      goals = (game.home_team_id == team_id ? game.home_goals.to_i : game.away_goals.to_i)
+      games_goals[game.game_id] = goals
+    end
+    sorted = games_goals.sort_by{|game, goals| goals}
+    sorted.pop.last
+  end
+
+  def fewest_goals_scored(team_id)
+    games_goals = {}
+    games = @game.select do |game|
+      game.home_team_id == team_id || game.away_team_id == team_id
+    end
+    games.each do |game|
+      goals = (game.home_team_id == team_id ? game.home_goals.to_i : game.away_goals.to_i)
+      games_goals[game.game_id] = goals
+    end
+    sorted = games_goals.sort_by{|game, goals| goals}
+    sorted.first.last
+  end
+
+  def favorite_opponent(team_id)
+    
+  end
+
+
+  def count_of_games_by_season
+    games_by_season = {}
+    @game.each do |game|
+      games_by_season[game.season] = 0
+    end
+    @game.each do |game|
+      games_by_season[game.season] += 1
+    end
+    games_by_season
+  # binding.pry
   end
 end
